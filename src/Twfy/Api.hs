@@ -1,3 +1,7 @@
+{-|
+Module      : Twfy.Api
+Description : Client API definition
+-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TypeOperators #-}
@@ -16,13 +20,15 @@ module Twfy.Api
 import Data.Proxy
 import Servant.API
 import Servant.Client
-import qualified Data.Text    as T
+import qualified Data.Text as T
 
 import Twfy.Data.JsonIso8859
 import Twfy.Data.Constituency
 
+-- | API Key
 type ApiKey = T.Text
 
+-- | Servant API definition
 type TwfyAPI = "getConstituency"
                :> QueryParam "key" ApiKey
                :> QueryParam "name" T.Text
@@ -36,8 +42,16 @@ type TwfyAPI = "getConstituency"
 twfyAPI :: Proxy TwfyAPI
 twfyAPI = Proxy
 
-getConstituency :: Maybe ApiKey -> Maybe T.Text -> Maybe T.Text -> ClientM Constituency
 
-getConstituencies :: Maybe ApiKey -> ClientM [Constituency]
+-- TODO: can we factor out the API key somehow and pass it in when constructing the client?
+-- |The 'getConstituency' function retreives a constituency based on name or post code
+getConstituency :: Maybe ApiKey -- ^ API key
+                   -> Maybe T.Text -- ^ Name
+                   -> Maybe T.Text -- ^ Post code
+                   -> ClientM Constituency
+
+-- |The 'getConstituencies' function retreives all constituencies
+getConstituencies :: Maybe ApiKey -- ^ API key
+                  -> ClientM [Constituency]
 
 (getConstituency :<|> getConstituencies) = client twfyAPI

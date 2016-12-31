@@ -1,7 +1,12 @@
+{-|
+Module      : Twfy.Data.JsonIso8859
+Description : Content-Type not provided by Servant
+
+Instances for Accept and MimeUnrender to allow Servant client to read 'text/javascript; charset=iso-8859-1'
+-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-
 module Twfy.Data.JsonIso8859
        (
          JsonIso8859
@@ -14,13 +19,11 @@ import Prelude.Compat
 import Servant
 import Data.Aeson
 
---import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as LBS
---import qualified Data.Text as T
---import qualified Data.Text.Lazy as LT
 import qualified Data.Text.Encoding as TE
 import qualified Network.HTTP.Media as Media
 
+-- | Type for 'text/plain; charset=iso8859-1'
 data JsonIso8859
 
 instance Accept JsonIso8859 where

@@ -1,3 +1,9 @@
+{-|
+Module      : Twfy.Data.Constituency
+Description : Constituency data types
+
+Constituency data types
+-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TypeOperators #-}
@@ -16,18 +22,26 @@ import Data.Maybe (catMaybes)
 import qualified Data.Text as T
 import Twfy.Util.Json (recordNameToJsonName)
 
+-- | Constituency Data
 data Constituency = Constiutency {
+  -- | Constituency name
   consituencyName :: T.Text
-  , constituencyBbcConstituencyId :: Maybe T.Text -- looks like an integer
-  , constituencyGuardianElectionResults :: Maybe T.Text -- URL
-  , constituencyGuardianId :: Maybe T.Text -- looks like an integer
+  -- | BBC ID for constituency. Arrives as text but appears to be integer
+  , constituencyBbcConstituencyId :: Maybe T.Text
+    -- | Guardian ID for constituency. Arrives as text but appears to be integer
+  , constituencyGuardianId :: Maybe T.Text
+    -- | Guardian name for constituency
   , constituencyGuardianName :: Maybe T.Text
-  , constituencyPaId :: Maybe T.Text -- looks like an integer
+    -- | Guardian election results URL
+  , constituencyGuardianElectionResults :: Maybe T.Text
+    -- | TOOD: find out what this is. Arrives as text but appears to be integer.
+  , constituencyPaId :: Maybe T.Text
   }
                   deriving (Generic)
 $(deriveJSON defaultOptions { fieldLabelModifier = recordNameToJsonName } ''Constituency)
 
 instance Show Constituency where
+  -- | Convert a constituency to a String
   show c = let name = Just $ consituencyName c
                bbc = fmap (mappend "bbc_id: ") $ constituencyBbcConstituencyId c
                guardian_id = fmap (mappend "guardian_id: ") $ constituencyGuardianId c

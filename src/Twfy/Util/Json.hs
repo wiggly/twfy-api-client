@@ -1,3 +1,9 @@
+{-|
+Module      : Twfy.Util.Json
+Description : JSON Utilities
+
+Convert record field names between haskell/JSON versions
+-}
 module Twfy.Util.Json
        (
          recordNameToJsonName
@@ -5,7 +11,9 @@ module Twfy.Util.Json
 
 import Data.Char (isUpper, toLower)
 
-recordNameToJsonName :: String -> String
+-- | Convert a haskell record field name in camelCase to JSON snake_case.
+recordNameToJsonName :: String -- ^ Record name
+                     -> String -- ^ JSON name
 recordNameToJsonName xs = let suffix = dropWhile (not . isUpper) xs
                               camel = (toLower (head suffix)) : tail suffix
                           in camelToSnake camel
