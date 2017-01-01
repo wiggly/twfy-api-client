@@ -15,12 +15,13 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Twfy.Api Twfy.Data.Constituency Twfy.Data.JsonIso8859 Twfy.Util.Json
+  exposed-modules:     Twfy.Client Twfy.Api Twfy.Data.Constituency Twfy.Data.MP Twfy.Data.JsonIso8859 Twfy.Util.Json
   build-depends:       base >= 4.7 && < 5
                      , base-compat
                      , mtl
                      , either
                      , transformers
+                     , exceptions
                      , bytestring
                      , text
                      , aeson
@@ -29,6 +30,7 @@ library
                      , servant-client >= 0.9.1
                      , servant-server >= 0.9.1
                      , http-client
+                     , http-client-tls
                      , http-media
   default-language:    Haskell2010
 

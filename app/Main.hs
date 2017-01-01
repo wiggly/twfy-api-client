@@ -5,16 +5,11 @@
 
 module Main where
 
-import Servant.Client
-
+import Servant.Client (ServantError)
 import System.Environment (lookupEnv)
+import qualified Data.Text as T
 
-import qualified Data.Text    as T
-
-import Network.HTTP.Client (newManager)
-import Network.HTTP.Client.TLS (tlsManagerSettings)
-
-import Twfy.Api
+import Twfy.Client
 
 -- TODO: add applicative opt parsing for urls, api key etc and commands for different API calls
 
@@ -32,19 +27,16 @@ displayResult result = do
     Right something -> do
       print something
 
-runQuery :: Show a => ClientM a -> IO ()
-runQuery cs = do
-  manager <- newManager tlsManagerSettings
-  let env = (ClientEnv manager (BaseUrl Https "www.theyworkforyou.com" 443 "/api"))
-  runClientM cs env >>= displayResult
-  return ()
-
-run :: Maybe ApiKey -> IO ()
+run :: ApiKey -> IO ()
 run apiKey = do
-  runQuery $ getConstituencies apiKey
-  runQuery $ getConstituency apiKey (Just "Manchester, Gorton") Nothing
+  c <- client apiKey Nothing Nothing
+  putStrLn $ show c
+  getConstituencies c >>=  displayResult
+  getConstituency c Nothing (Just "TW8 0QU") >>= displayResult
+  getMP c Nothing (Just "Manchester, Gorton") Nothing (Just False) >>= displayResult
+  getMPs c Nothing (Just "Labour") Nothing >>= displayResult
 
 main :: IO ()
 main = do
   apiKey <- readApiKey
-  run apiKey
+  maybe (putStrLn "Can't run without API KEY") run apiKey
