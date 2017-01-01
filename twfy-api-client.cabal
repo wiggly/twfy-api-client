@@ -12,6 +12,8 @@ category:            API
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
+stability: alpha
+bug-reports: https://github.com/wiggly/twfy-api-client/issues
 
 library
   hs-source-dirs:      src
