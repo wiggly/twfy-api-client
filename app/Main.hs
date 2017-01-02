@@ -8,7 +8,7 @@ module Main where
 import Servant.Client (ServantError)
 import System.Environment (lookupEnv)
 import qualified Data.Text as T
-
+import Data.Either (either)
 import Twfy.Client
 
 -- TODO: add applicative opt parsing for urls, api key etc and commands for different API calls
@@ -21,11 +21,9 @@ readApiKey = do
   return textKey
 
 displayResult :: Show a => (Either ServantError a) -> IO ()
-displayResult result = do
-  case result of
-    Left err -> putStrLn $ "Error: " ++ show err
-    Right something -> do
-      print something
+displayResult result = either
+  (\e -> putStrLn $ "Error: " ++ show e)
+  (\x -> print x)
 
 run :: ApiKey -> IO ()
 run apiKey = do
