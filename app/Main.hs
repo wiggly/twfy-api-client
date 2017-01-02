@@ -21,7 +21,7 @@ readApiKey = do
   return textKey
 
 displayResult :: Show a => (Either ServantError a) -> IO ()
-displayResult result = either
+displayResult = either
   (\e -> putStrLn $ "Error: " ++ show e)
   (\x -> print x)
 
