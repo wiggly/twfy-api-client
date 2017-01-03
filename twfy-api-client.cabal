@@ -54,6 +54,7 @@ executable twfy-api-client
                      , servant-client >= 0.9.1
                      , http-client
                      , http-client-tls
+                     , optparse-applicative
   default-language: Haskell2010
 
 test-suite twfy-api-client-test
